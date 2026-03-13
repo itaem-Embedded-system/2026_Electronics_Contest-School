@@ -26,6 +26,8 @@ CHECK_TICK = 5
 send_x = 0
 send_y = 0
 send_tick = 0
+# 偏差纠正值（通信偏移量）
+OFFSET = 100
 # ======================== 摄像头初始化配置 ========================
 # 重置摄像头
 sensor.reset()
@@ -118,8 +120,8 @@ while True:
         send_tick = 0
         send_x = 0
         send_y = 0
-    OFFSET = 100
-    # 负数转正数：比如 X偏差=-20 → -20+100=80；X偏差=30 → 30+100=130
+    
+    # 通信
     x_pos = int(relative_coordinate_x) + OFFSET
     y_pos = int(relative_coordinate_y) + OFFSET
     uart.write(f"{x_pos},{y_pos},{OFFSET}\r\n")
@@ -134,3 +136,6 @@ while True:
 
     # 打印帧率
     # print(f"FPS: {clock.fps():.1f}")
+
+
+
