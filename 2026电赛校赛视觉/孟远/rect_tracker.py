@@ -2,7 +2,7 @@
 import sensor        # OpenMV摄像头传感器模块，用于配置和控制摄像头
 import time          # 时间模块，用于延时、计时等操作
 from machine import UART
-import json
+# import json
 
 # ======================== 全局变量配置 ========================
 # 定义画面中心坐标 QQVGA 160,120
@@ -27,7 +27,7 @@ send_x = 0
 send_y = 0
 send_tick = 0
 # 偏差纠正值（通信偏移量）
-OFFSET = 100
+OFFSET = 0
 # ======================== 摄像头初始化配置 ========================
 # 重置摄像头
 sensor.reset()
@@ -54,7 +54,7 @@ else:
     sensor.set_auto_gain(False, gain_db=20)
     # 再次跳过2000ms帧，让手动曝光/增益参数生效
     sensor.skip_frames(time=2000)
-#===================     串口     ==============================
+# ===================     串口     ==============================
 def send_coord_packet(x, y):
     """构建坐标数据包"""
     packet = bytearray()
@@ -136,6 +136,3 @@ while True:
 
     # 打印帧率
     # print(f"FPS: {clock.fps():.1f}")
-
-
-
