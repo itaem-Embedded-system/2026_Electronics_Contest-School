@@ -28,6 +28,10 @@ send_y = 0
 send_tick = 0
 # 偏差纠正值（通信偏移量）
 OFFSET = 0
+# 通信上限
+SUP = 200
+# 通信下限
+INF = -200
 # ======================== 摄像头初始化配置 ========================
 # 重置摄像头
 sensor.reset()
@@ -120,11 +124,13 @@ while True:
         send_tick = 0
         send_x = 0
         send_y = 0
-    
+
     # 通信
     x_pos = int(relative_coordinate_x) + OFFSET
     y_pos = int(relative_coordinate_y) + OFFSET
-    uart.write(f"{x_pos},{y_pos},{OFFSET}\r\n")
+    if x_pos < SUP and x_pos > INF:
+        if y_pos < SUP and y_pos > INF:
+            uart.write(f"{x_pos},{y_pos},{OFFSET}\r\n")
     # ======================== 图像可视化标注 (调试用) ========================
     # 用红色矩形框标出识别到的矩形
     img.draw_rectangle(rect.rect(), color=(255, 0, 0))
@@ -136,6 +142,3 @@ while True:
 
     # 打印帧率
     # print(f"FPS: {clock.fps():.1f}")
-
-
-
